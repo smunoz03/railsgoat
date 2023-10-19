@@ -1,0 +1,17 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  safeops-scan-job:
+          runs-on: ubuntu-latest
+          container:
+              image: ubuntu-latest
+              env:
+                  API_KEY: ${{ secrets.SAFEOPS_API_KEY }}
+          steps:
+              - name: Install SafeOps CLI
+                run: pip3 install safeops-cli --user -U
+              - name: Trigger SafeOps Scan
+                run: safeops start-scans -a $API_KEY
+              - name: Check SafeOps Results
+                run: safeops get-results -a $API_KEY
